@@ -143,6 +143,47 @@ void DeleteSymbols()
     }
 }
 
+//task 8
+void InsertSymbolByPosition()
+{
+    _TCHAR str[] = _TEXT("Borrasca");
+    wcout << "Before deleting: " << str << endl;
+
+    _TCHAR symbol;
+    wcout << "Enter symbol: ";
+    wcin >> symbol;
+
+    int pos;
+    wcout << "Enter position: ";
+    wcin >> pos;
+
+    int len = wcslen(str);
+
+    if (pos >= 0 && pos <= len)
+    {
+        _TCHAR newStr[36];
+        int j = 0;
+
+        for (int i = 0; i < pos; i++) 
+        {
+            newStr[j++] = str[i];
+        }
+        newStr[j++] = symbol;
+
+        for (int i = pos; i < len; i++) 
+        {
+            newStr[j++] = str[i];
+        }
+
+        newStr[j] = L'\0';
+        wcout << "After inserting: " << newStr << endl;
+    }
+    else
+    {
+        wcout << "Invalid position." << endl;
+    }
+}
+
 void main()
 {
 	//SpaceToTab();
@@ -151,5 +192,6 @@ void main()
     //CountVowelsRU();
     //IsPalindrome();
     //DeleteSymbolByPosition();
-    DeleteSymbols();
+    //DeleteSymbols();
+    InsertSymbolByPosition();
 }
