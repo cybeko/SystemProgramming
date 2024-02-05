@@ -58,23 +58,35 @@ void CountWords()
     }
     wcout << L"Word count: " << words << endl;
 }
+
+//task 4
 void CountVowelsRU()
 {
-    const int SIZE = 64;
-    _TCHAR str[SIZE];
-
-    wcout << L"Enter sentence: ";
-    wcin.getline(str, SIZE);
-    wcout << str << endl;
-
-
 }
 
+//task 5
+void IsPalindrome()
+{
+    _TCHAR str[] = _TEXT("Racecar");
+
+    int size = wcslen(str);
+
+    for (int i = 0; i < size / 2; i++)
+    {
+        if (tolower(str[i]) != tolower(str[size - i - 1]))
+        {
+            wcout << _TEXT("Not a palindrome");
+            return;
+        }
+    }
+    wcout << _TEXT("Palindrome");
+}
 
 void main()
 {
 	//SpaceToTab();
 	//CountSymbols();
 	//CountWords();
-    CountVowelsRU();
+    //CountVowelsRU();
+    IsPalindrome();
 }
