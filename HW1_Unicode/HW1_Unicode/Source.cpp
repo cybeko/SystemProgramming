@@ -82,11 +82,39 @@ void IsPalindrome()
     wcout << _TEXT("Palindrome");
 }
 
+//task 6
+void DeleteSymbolByPosition()
+{
+    _TCHAR str[] = _TEXT("World");
+    wcout << "Before deleting: " << str << endl;
+
+    int pos;
+    cin >> pos;
+
+    int size = wcslen(str);
+
+    if (pos >= 0 && pos < size)
+    {
+        for (int i = pos; i < size - 1; i++)
+        {
+            str[i] = str[i + 1];
+        }
+
+        str[size - 1] = _TEXT('\0');
+        wcout << "After deleting: " << str << endl;
+    }
+    else
+    {
+        wcout << "Invalid position." << endl;
+    }
+}
+
 void main()
 {
 	//SpaceToTab();
 	//CountSymbols();
 	//CountWords();
     //CountVowelsRU();
-    IsPalindrome();
+    //IsPalindrome();
+    DeleteSymbolByPosition();
 }
