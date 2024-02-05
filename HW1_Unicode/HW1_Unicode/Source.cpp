@@ -109,6 +109,40 @@ void DeleteSymbolByPosition()
     }
 }
 
+//task 7
+void DeleteSymbols()
+{
+    _TCHAR str[] = _TEXT("Borrasca");
+    wcout << "Before deleting: " << str << endl;
+
+    _TCHAR symbol;
+    wcout << "Enter symbol: ";
+    wcin >> symbol;
+
+    bool isFind = 0;
+    int j = 0;
+    for (int i = 0; i < wcslen(str); i++) 
+    {
+        if (str[i] != symbol) 
+        {
+            str[j++] = str[i];
+        }
+        else
+        {
+            isFind = 1;
+        }
+    }
+    if (!isFind)
+    {
+        wcout << "Symbol not found";
+    }
+    else
+    {
+        str[j] = L'\0';
+        wcout << "After deleting: " << str << endl;
+    }
+}
+
 void main()
 {
 	//SpaceToTab();
@@ -116,5 +150,6 @@ void main()
 	//CountWords();
     //CountVowelsRU();
     //IsPalindrome();
-    DeleteSymbolByPosition();
+    //DeleteSymbolByPosition();
+    DeleteSymbols();
 }
