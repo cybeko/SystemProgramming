@@ -24,9 +24,9 @@ void SpaceToTab()
 //task 2 
 void CountSymbols()
 {
-	_TCHAR str[] = _TEXT("Hello");
+	_TCHAR str[] = _TEXT("Hello752&&&");
 	wcout << str << endl;
-	cout << "Length of Unicode-string: " << wcslen(str) << endl;
+
 }
 
 //task 3 
@@ -37,7 +37,6 @@ void CountWords()
 
     wcout << L"Enter sentence: ";
     wcin.getline(str, SIZE);
-    //wcout << str << endl;
 
     bool inSpace = false;
     int words = 0;
