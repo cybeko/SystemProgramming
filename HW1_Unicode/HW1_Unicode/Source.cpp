@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS 
 #define _UNICODE  
+
 #include <iostream> 
 #include <tchar.h> 
 #include <Windows.h> 
@@ -11,11 +12,11 @@ void SpaceToTab()
 	_TCHAR str[] = _TEXT("A B C D E F");
 	wcout << str << endl;
 
-	for (size_t i = 0; i < wcslen(str); i++)
+	for (size_t i = 0; i < _tcslen(str); i++)
 	{
-		if (str[i] == ' ')
+        if (str[i] == _T(' '))
 		{
-			str[i] = '\t';
+            str[i] = _T('\t');
 		}
 	}
 	wcout << str << endl;
@@ -62,6 +63,27 @@ void CountWords()
 //task 4
 void CountVowelsRU()
 {
+    const int SIZE = 64;
+    _TCHAR str[SIZE];
+
+    setlocale(LC_ALL, "Russian");
+
+    wcout << L"Введите предложение: ";
+    wcin.getline(str, SIZE);
+    wcout << L"Введённое предложение: " << str << endl;
+
+    int vowelCount = 0;
+
+    for (int i = 0; str[i] < wcslen(str); ++i) 
+    {
+        wchar_t ch = towlower(str[i]);
+        if (ch == L'е')//..
+        {
+            vowelCount++;
+        }
+    }
+
+    wcout << L"Количество гласных: " << vowelCount << endl;
 }
 
 //task 5
@@ -189,9 +211,9 @@ void main()
 	//SpaceToTab();
 	//CountSymbols();
 	//CountWords();
-    //CountVowelsRU();
+    CountVowelsRU();
     //IsPalindrome();
     //DeleteSymbolByPosition();
     //DeleteSymbols();
-    InsertSymbolByPosition();
+    //InsertSymbolByPosition();
 }
