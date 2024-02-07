@@ -24,11 +24,33 @@ void SpaceToTab()
 //task 2 
 void CountSymbols()
 {
-	_TCHAR str[] = _TEXT("Hello752&&&");
-	wcout << str << endl;
+    _TCHAR str[] = _TEXT("Hello123[&]");
+    wcout << str << endl;
 
+    int letterCount = 0;
+    int numberCount = 0;
+    int symbolCount = 0;
+
+    for (int i = 0; i < _tcslen(str); ++i) 
+    {
+        if (iswalpha(str[i])) 
+        {
+            ++letterCount;
+        }
+        else if (iswdigit(str[i])) 
+        {
+            ++numberCount;
+        }
+        else if (iswpunct(str[i])) 
+        {
+            ++symbolCount;
+        }
+    }
+
+    wcout << "Letters: " << letterCount << endl;
+    wcout << "Numbers: " << numberCount << endl;
+    wcout << "Symbols: " << symbolCount << endl;
 }
-
 //task 3 
 void CountWords()
 {
@@ -41,7 +63,7 @@ void CountWords()
     bool inSpace = false;
     int words = 0;
 
-    for (size_t i = 0; i < wcslen(str); i++)
+    for (size_t i = 0; i < _tcslen(str); i++)
     {
         if (str[i] == ' ')
         {
@@ -62,27 +84,32 @@ void CountWords()
 //task 4
 void CountVowelsRU()
 {
+    setlocale(LC_ALL, "Russian");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
     const int SIZE = 64;
     _TCHAR str[SIZE];
-
-    setlocale(LC_ALL, "Russian");
+    _TCHAR vowels[SIZE] = L"ауоиэыяюеё";
 
     wcout << L"Введите предложение: ";
     wcin.getline(str, SIZE);
-    wcout << L"Введённое предложение: " << str << endl;
 
     int vowelCount = 0;
 
-    for (int i = 0; str[i] < wcslen(str); ++i) 
+    for (int i = 0; i < wcslen(str); ++i)
     {
-        wchar_t ch = towlower(str[i]);
-        if (ch == L'е')//..
+        _TCHAR ch = towlower(str[i]);
+        for (int j = 0; j < wcslen(vowels); j++)
         {
-            vowelCount++;
+            if (ch == vowels[j])
+            {
+                vowelCount++;
+                break;
+            }
         }
     }
-
-    wcout << L"Количество гласных: " << vowelCount << endl;
+    wcout << L"Количество гласных букв: " << vowelCount << endl;
 }
 
 //task 5
@@ -90,7 +117,7 @@ void IsPalindrome()
 {
     _TCHAR str[] = _TEXT("Racecar");
 
-    int size = wcslen(str);
+    int size = _tcslen(str);
 
     for (int i = 0; i < size / 2; i++)
     {
@@ -107,12 +134,13 @@ void IsPalindrome()
 void DeleteSymbolByPosition()
 {
     _TCHAR str[] = _TEXT("World");
-    wcout << "Before deleting: " << str << endl;
+    wcout << L"Before deleting: " << str << endl;
 
     int pos;
+    wcout << L"Enter position: ";
     cin >> pos;
 
-    int size = wcslen(str);
+    int size = _tcslen(str);
 
     if (pos >= 0 && pos < size)
     {
@@ -122,11 +150,11 @@ void DeleteSymbolByPosition()
         }
 
         str[size - 1] = _TEXT('\0');
-        wcout << "After deleting: " << str << endl;
+        wcout << L"After deleting: " << str << endl;
     }
     else
     {
-        wcout << "Invalid position." << endl;
+        wcout << L"Invalid position." << endl;
     }
 }
 
@@ -134,15 +162,15 @@ void DeleteSymbolByPosition()
 void DeleteSymbols()
 {
     _TCHAR str[] = _TEXT("Borrasca");
-    wcout << "Before deleting: " << str << endl;
+    wcout << L"Before deleting: " << str << endl;
 
     _TCHAR symbol;
-    wcout << "Enter symbol: ";
+    wcout << L"Enter symbol: ";
     wcin >> symbol;
 
     bool isFind = 0;
     int j = 0;
-    for (int i = 0; i < wcslen(str); i++) 
+    for (int i = 0; i < _tcslen(str); i++)
     {
         if (str[i] != symbol) 
         {
@@ -155,12 +183,12 @@ void DeleteSymbols()
     }
     if (!isFind)
     {
-        wcout << "Symbol not found";
+        wcout << L"Symbol not found";
     }
     else
     {
         str[j] = L'\0';
-        wcout << "After deleting: " << str << endl;
+        wcout << L"After deleting: " << str << endl;
     }
 }
 
@@ -168,17 +196,17 @@ void DeleteSymbols()
 void InsertSymbolByPosition()
 {
     _TCHAR str[] = _TEXT("Borrasca");
-    wcout << "Before deleting: " << str << endl;
+    wcout << L"Before deleting: " << str << endl;
 
     _TCHAR symbol;
-    wcout << "Enter symbol: ";
+    wcout << L"Enter symbol: ";
     wcin >> symbol;
 
     int pos;
-    wcout << "Enter position: ";
+    wcout << L"Enter position: ";
     wcin >> pos;
 
-    int len = wcslen(str);
+    int len = _tcslen(str);
 
     if (pos >= 0 && pos <= len)
     {
@@ -197,22 +225,21 @@ void InsertSymbolByPosition()
         }
 
         newStr[j] = L'\0';
-        wcout << "After inserting: " << newStr << endl;
+        wcout << L"After inserting: " << newStr << endl;
     }
     else
     {
-        wcout << "Invalid position." << endl;
+        wcout << L"Invalid position." << endl;
     }
 }
 
 void main()
 {
-	//SpaceToTab();
+	SpaceToTab();
 	//CountSymbols();
 	//CountWords();
-    CountVowelsRU();
+    //CountVowelsRU();
     //IsPalindrome();
-    //DeleteSymbolByPosition();
     //DeleteSymbols();
     //InsertSymbolByPosition();
 }
