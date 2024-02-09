@@ -11,7 +11,7 @@ INT WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, i
         int nMaxRange = 100;
         int nTriesCount = 0;
 
-        MessageBox(0, TEXT("Загадайте число от 1 до 100!"), TEXT("Загадайте число"), MB_OK | MB_ICONINFORMATION);
+        MessageBox(0, TEXT("Think of a number between 1 and 100!"), TEXT("Think of a number"), MB_OK | MB_ICONINFORMATION);
         bool bIsFound = false;
 
         while (!bIsFound)
@@ -19,8 +19,8 @@ INT WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, i
             int nGuessNum = (nMinRange + nMaxRange) / 2;
             TCHAR szMessage[100];
 
-            _stprintf_s(szMessage, TEXT("Ваше число больше %d?"), nGuessNum);
-            int nResult = MessageBox(0, szMessage, TEXT("Загадайте число"), MB_YESNO | MB_ICONQUESTION);
+            _stprintf_s(szMessage, TEXT("Is your number greater than %d?"), nGuessNum);
+            int nResult = MessageBox(0, szMessage, TEXT("Think of a number"), MB_YESNO | MB_ICONQUESTION);
 
             if (nResult == IDYES)
             {
@@ -33,20 +33,20 @@ INT WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, i
 
             if (nMinRange > 100 || nMaxRange < 1)
             {
-                MessageBox(0, TEXT("Ваше число вне диапазона от 1 до 100."), TEXT("Вне диапазона"), MB_OK | MB_ICONERROR);
+                MessageBox(0, TEXT("Your number is out of range."), TEXT("Out of range"), MB_OK | MB_ICONERROR);
                 bIsFound = true;
             }
             else if (nMinRange > nMaxRange)
             {
                 bIsFound = true;
-                _stprintf_s(szMessage, TEXT("Ваше число: %d\nКоличество попыток: %d"), nMinRange, nTriesCount);
-                MessageBox(0, szMessage, TEXT("Число угадано"), MB_OK | MB_ICONINFORMATION);
+                _stprintf_s(szMessage, TEXT("Your number: %d\nTries: %d"), nMinRange, nTriesCount);
+                MessageBox(0, szMessage, TEXT("Number has been guessed"), MB_OK | MB_ICONINFORMATION);
             }
 
             nTriesCount++;
         }
 
-        int nPlayAgain = MessageBox(0, TEXT("Сыграть еще раз?"), TEXT(""), MB_YESNO | MB_ICONQUESTION);
+        int nPlayAgain = MessageBox(0, TEXT("Play again?"), TEXT(""), MB_YESNO | MB_ICONQUESTION);
         if (nPlayAgain != IDYES)
         {
             bIsGame = false;
