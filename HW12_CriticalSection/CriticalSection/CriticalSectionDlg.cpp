@@ -3,6 +3,8 @@
 CriticalSectionDlg* CriticalSectionDlg::ptr = NULL;
 
 CRITICAL_SECTION cs;
+vector<string> fileNames;
+CriticalSectionDlg dlg;
 
 CriticalSectionDlg::CriticalSectionDlg(void)
 {
@@ -37,7 +39,8 @@ void MessageAboutError(DWORD dwError)
 	TCHAR szBuf[300]; 
 
 	BOOL fOK = FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-		NULL, dwError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+	NULL, dwError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+
 	if(lpMsgBuf != NULL)
 	{
 		wsprintf(szBuf, TEXT("Ошибка %d: %s"), dwError, lpMsgBuf); 
@@ -45,26 +48,18 @@ void MessageAboutError(DWORD dwError)
 		LocalFree(lpMsgBuf); 
 	}
 }
-vector<string> fileNames;
-CriticalSectionDlg dlg;
 
 DWORD WINAPI CreateFiles(LPVOID lp)
 {
-	cout << "Write files\n" << endl;
+	EnterCriticalSection(&cs);
+	cout << "[Writing files]\n" << endl;
 
 	ifstream readFile(dlg.initFileName, ios::in);
-	EnterCriticalSection(&cs);
-
 	char cBuf[100];
-	if (!readFile.is_open()) 
-	{
-		MessageBox(0, TEXT("Failed to open the file"), TEXT("Critical Section"), MB_OK);
-		LeaveCriticalSection(&cs);
-		return 1;
-	}
+
 	for(size_t i = 0; i <= dlg.fileAmt-1; i++)
 	{
-		cout << "SIZE:" << dlg.fileAmt - 1<<endl;
+		cout << "SIZE:" << dlg.fileAmt - 1 << endl;
 		string copyFileName = "copy" + to_string(i)+".txt";
 		wofstream createFile(copyFileName);
 		fileNames.push_back(copyFileName);
@@ -82,6 +77,7 @@ DWORD WINAPI CreateFiles(LPVOID lp)
 		createFile.close();
 	}
 	readFile.close();
+
 	LeaveCriticalSection(&cs);
 	cout << "[File created]" << endl;
 	return 0;
@@ -89,19 +85,12 @@ DWORD WINAPI CreateFiles(LPVOID lp)
 
 DWORD WINAPI ReadAndWrite(LPVOID lp)
 {
-	cout << "\nRead files" << endl;
-
+	EnterCriticalSection(&cs);
+	cout << "\n[Reading files]" << endl;
 	char cBuf[100];
 	string strBuf;
-	EnterCriticalSection(&cs);
 
 	wofstream writeRes(dlg.resFileName);
-	if (!writeRes.is_open())
-	{
-		MessageBox(0, TEXT("Failed to open writeRes"), TEXT("Critical Section"), MB_OK);
-		LeaveCriticalSection(&cs);
-		return 1;
-	}
 	cout <<"[SIZE: " << fileNames.size()<<"]" << endl;
 
 	for (size_t i = 0; i < fileNames.size(); i++)
@@ -109,12 +98,6 @@ DWORD WINAPI ReadAndWrite(LPVOID lp)
 		ifstream readCopy(fileNames[i], ios::in);
 		cout <<"Read files:"<< fileNames[i] << endl;
 
-		if (!readCopy.is_open())
-		{
-			MessageBox(0, TEXT("Failed to open writeRes"), TEXT("Critical Section"), MB_OK);
-			LeaveCriticalSection(&cs);
-			return 1;
-		}
 		while (!readCopy.eof())
 		{
 			readCopy.getline(cBuf, sizeof(cBuf));
@@ -125,7 +108,6 @@ DWORD WINAPI ReadAndWrite(LPVOID lp)
 	writeRes.close();
 	LeaveCriticalSection(&cs);
 	cout << "[Written to result.txt]" << endl;
-	//MessageBox(0, TEXT("Поток записал текст в result.txt"), TEXT("Критическая секция"), MB_OK);
 	return 0;
 }
 
