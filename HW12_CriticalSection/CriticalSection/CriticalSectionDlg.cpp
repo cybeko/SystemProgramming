@@ -80,6 +80,7 @@ DWORD WINAPI CreateFiles(LPVOID lp)
 
 	LeaveCriticalSection(&cs);
 	cout << "[File created]" << endl;
+	MessageBox(NULL, L"Copies created", L"File", MB_OK);
 	return 0;
 }
 
@@ -108,6 +109,7 @@ DWORD WINAPI ReadAndWrite(LPVOID lp)
 	writeRes.close();
 	LeaveCriticalSection(&cs);
 	cout << "[Written to result.txt]" << endl;
+	MessageBox(NULL, L"Written to result.txt", L"File", MB_OK);
 	return 0;
 }
 
